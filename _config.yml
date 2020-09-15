@@ -3,17 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Joy Lobo
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
-language: en
-timezone: ''
+author: Joy Lobo
+language: zh-CN
+timezone: Asia/Shanghai
+banner-url: 
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: https://joylobo.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -104,3 +105,7 @@ theme: landscape
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# DISQUS comments
+disqus_enabled: true
+disqus_shortname: gh-pages-4
