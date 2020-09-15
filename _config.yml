@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Joy Lobo
+title: Joy Lobo随笔
 subtitle: ''
 description: ''
 keywords:
@@ -72,6 +72,13 @@ default_category: uncategorized
 category_map:
 tag_map:
 
+tag_cloud:
+  textFont: Trebuchet MS, Helvetica
+  textColor: '#555'
+  textHeight: 25
+  outlineColor: '#E2E1D1'
+  maxSpeed: 0.1
+
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
 meta_generator: true
@@ -109,3 +116,7 @@ deploy:
 # DISQUS comments
 disqus_enabled: true
 disqus_shortname: gh-pages-4
+
+feed:
+  type: atom
+  path: atom.xml
