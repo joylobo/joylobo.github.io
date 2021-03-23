@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>MySQL索引 | Joy Lobo随笔</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介索引是帮助MySQL高效获取数据的排好序的数据结构, 索引存储在文件里。 入门篇磁盘寻道和旋转 索引结构https:&#x2F;&#x2F;www.cs.usfca.edu&#x2F;~galles&#x2F;visualization&#x2F;Algorithms.html二叉树 &#x3D;&#x3D;&gt; 红黑树 &#x3D;&#x3D;&gt; btree &#x3D;&#x3D;&gt; b+treehash 聚簇与非聚簇表 FAQMySQL为什么用自增主键 省空间(非叶子节点能够存更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL索引">
+<meta property="og:url" content="https://joylobo.github.io/2021/03/04/mysql-index/index.html">
+<meta property="og:site_name" content="Joy Lobo随笔">
+<meta property="og:description" content="简介索引是帮助MySQL高效获取数据的排好序的数据结构, 索引存储在文件里。 入门篇磁盘寻道和旋转 索引结构https:&#x2F;&#x2F;www.cs.usfca.edu&#x2F;~galles&#x2F;visualization&#x2F;Algorithms.html二叉树 &#x3D;&#x3D;&gt; 红黑树 &#x3D;&#x3D;&gt; btree &#x3D;&#x3D;&gt; b+treehash 聚簇与非聚簇表 FAQMySQL为什么用自增主键 省空间(非叶子节点能够存更">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://joylobo.github.io/.io//clustered-index-vs-non-clustered-index.png">
+<meta property="article:published_time" content="2021-03-04T02:29:44.000Z">
+<meta property="article:modified_time" content="2021-03-23T12:43:56.680Z">
+<meta property="article:author" content="Joy Lobo">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joylobo.github.io/.io//clustered-index-vs-non-clustered-index.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Joy Lobo随笔" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joy Lobo随笔</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://joylobo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mysql-index" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/04/mysql-index/" class="article-date">
+  <time datetime="2021-03-04T02:29:44.000Z" itemprop="datePublished">2021-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL索引
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>索引</strong>是帮助MySQL高效获取数据的<strong>排好序</strong>的<strong>数据结构</strong>, 索引存储在文件里。</p>
+<h2 id="入门篇"><a href="#入门篇" class="headerlink" title="入门篇"></a>入门篇</h2><p>磁盘寻道和旋转</p>
+<h3 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h3><p><a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a><br>二叉树 ==&gt; 红黑树 ==&gt; btree ==&gt; b+tree<br>hash</p>
+<h3 id="聚簇与非聚簇表"><a href="#聚簇与非聚簇表" class="headerlink" title="聚簇与非聚簇表"></a>聚簇与非聚簇表</h3><p><img src="/.io//clustered-index-vs-non-clustered-index.png" alt="索引"></p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="MySQL为什么用自增主键"><a href="#MySQL为什么用自增主键" class="headerlink" title="MySQL为什么用自增主键"></a>MySQL为什么用自增主键</h3><ol>
+<li>省空间(非叶子节点能够存更多条)</li>
+<li>数字比较比字符串比较快</li>
+<li>如果碰到不规则数据插入时，为了保持B+树的平衡，会造成频繁的页分裂和页旋转，插入速度比较慢。所以聚簇索引的主键值应尽量是连续增长的值，而不是随机值(不要用随机字符串或UUID)。</li>
+</ol>
+<h3 id="分析一下几条sql的索引使用情况"><a href="#分析一下几条sql的索引使用情况" class="headerlink" title="分析一下几条sql的索引使用情况"></a>分析一下几条sql的索引使用情况</h3><table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Non_unique</th>
+<th>Key_name</th>
+<th>Seq_in_index</th>
+<th>Column_name</th>
+<th>Collation</th>
+<th>Cardinality</th>
+<th>Null</th>
+<th>Index_type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>titles</td>
+<td>0</td>
+<td>PRIMARY</td>
+<td>1</td>
+<td>emp_no</td>
+<td>A</td>
+<td>NULL</td>
+<td></td>
+<td>BTREE</td>
+</tr>
+<tr>
+<td>titles</td>
+<td>0</td>
+<td>PRIMARY</td>
+<td>2</td>
+<td>title</td>
+<td>A</td>
+<td>NULL</td>
+<td></td>
+<td>BTREE</td>
+</tr>
+<tr>
+<td>titles</td>
+<td>0</td>
+<td>PRIMARY</td>
+<td>3</td>
+<td>from_date</td>
+<td>A</td>
+<td>443308</td>
+<td></td>
+<td>BTREE</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line">    <span class="keyword">FROM</span> titles </span><br><span class="line">    <span class="keyword">WHERE</span> emp_no = <span class="string">&#x27;1001&#x27;</span> <span class="keyword">AND</span> title = <span class="string">&#x27;Senior Engineer&#x27;</span> <span class="keyword">AND</span> from_date = <span class="string">&#x27;1986-06-26&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line">    <span class="keyword">FROM</span> titles </span><br><span class="line">    <span class="keyword">WHERE</span> title = <span class="string">&#x27;Senior Engineer&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line">    <span class="keyword">FROM</span> titles </span><br><span class="line">    <span class="keyword">WHERE</span> emp_no &gt; <span class="string">&#x27;1001&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * </span><br><span class="line">    <span class="keyword">FROM</span> titles </span><br><span class="line">    <span class="keyword">WHERE</span> emp_no &gt; <span class="string">&#x27;1001&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> title;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://joylobo.github.io/2021/03/04/mysql-index/" data-id="ckmm0fh4e000919qc30uqdog2" class="article-share-link">Share</a>
+      
+        <a href="https://joylobo.github.io/2021/03/04/mysql-index/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/23/mysql-lock/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql-lock
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/04/git/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Git</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/23/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/23/mysql-lock/">mysql-lock</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/mysql-index/">MySQL索引</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/git/">Git</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/redis/">Redis</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="250" height="250" id="resCanvas" style="width:100%">
+        <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 20px;">中间件</a> <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" style="font-size: 10px;">反向代理</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/" style="font-size: 10px;">容器编排</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" style="font-size: 10px;">版本管理</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a>
+      </canvas>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Joy Lobo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'gh-pages-4';
+  
+  var disqus_url = 'https://joylobo.github.io/2021/03/04/mysql-index/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

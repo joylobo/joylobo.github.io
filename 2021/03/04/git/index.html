@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Git | Joy Lobo随笔</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介Git是一个分布式版本控制系统(DVCS), 它可以跟踪文件的更改，并且可以恢复到任何特定版本的更改。Git项目主页: https:&#x2F;&#x2F;git-scm.com&#x2F;。 入门篇Git仓库的新建&#x2F;克隆123git init                                         # 在当前目录新建一个Git仓库git init [project-name]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git">
+<meta property="og:url" content="https://joylobo.github.io/2021/03/04/git/index.html">
+<meta property="og:site_name" content="Joy Lobo随笔">
+<meta property="og:description" content="简介Git是一个分布式版本控制系统(DVCS), 它可以跟踪文件的更改，并且可以恢复到任何特定版本的更改。Git项目主页: https:&#x2F;&#x2F;git-scm.com&#x2F;。 入门篇Git仓库的新建&#x2F;克隆123git init                                         # 在当前目录新建一个Git仓库git init [project-name]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-04T02:27:33.000Z">
+<meta property="article:modified_time" content="2021-03-23T12:43:56.584Z">
+<meta property="article:author" content="Joy Lobo">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="版本管理">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Joy Lobo随笔" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joy Lobo随笔</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://joylobo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/04/git/" class="article-date">
+  <time datetime="2021-03-04T02:27:33.000Z" itemprop="datePublished">2021-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Git是一个分布式版本控制系统(DVCS), 它可以跟踪文件的更改，并且可以恢复到任何特定版本的更改。Git项目主页: <a target="_blank" rel="noopener" href="https://git-scm.com/%E3%80%82">https://git-scm.com/。</a></p>
+<h2 id="入门篇"><a href="#入门篇" class="headerlink" title="入门篇"></a>入门篇</h2><h3 id="Git仓库的新建-克隆"><a href="#Git仓库的新建-克隆" class="headerlink" title="Git仓库的新建/克隆"></a>Git仓库的新建/克隆</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git init                                         <span class="comment"># 在当前目录新建一个Git仓库</span></span><br><span class="line">git init [project-name]                          <span class="comment"># 新建一个目录，将其初始化为Git仓库</span></span><br><span class="line">git <span class="built_in">clone</span> &lt;remote_url&gt;                           <span class="comment"># 下载一个项目和它的整个代码历史</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加修改到暂存区"><a href="#添加修改到暂存区" class="headerlink" title="添加修改到暂存区"></a>添加修改到暂存区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;filename&gt;                               <span class="comment"># 将对文件的修改添加到暂存区</span></span><br><span class="line">git add &lt;directory&gt;                              <span class="comment"># 将对文件夹的修改添加到暂存区</span></span><br><span class="line">git add --all                                    <span class="comment"># 将所有的修改添加到暂存区</span></span><br><span class="line">git rm -cached target [-r]                       <span class="comment"># 从暂存区删除文件</span></span><br></pre></td></tr></table></figure>
+<h3 id="提交修改"><a href="#提交修改" class="headerlink" title="提交修改"></a>提交修改</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git commit &lt;filename&gt; -m <span class="string">&quot;提交日志&quot;</span>               <span class="comment"># 提交指定文件</span></span><br><span class="line">git commit -m <span class="string">&quot;提交日志&quot;</span>                            </span><br><span class="line">git commit -am <span class="string">&quot;添加并提交&quot;</span></span><br><span class="line">git revert &lt;commit id&gt;                           <span class="comment"># 创建一个新的提交，撤消错误提交中所做的更改</span></span><br></pre></td></tr></table></figure>
+<h3 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git branch [-avv]                                <span class="comment"># 查看当前分支</span></span><br><span class="line">git branch &lt;branch name&gt;                         <span class="comment"># 基于当前分支新建分支, 如:git branch dev </span></span><br><span class="line">git branch &lt;branch name&gt; &lt;soure branch&gt;          <span class="comment"># 基于指定分支新建分支, 如:git branch dev master</span></span><br><span class="line">git branch &lt;branch name&gt; &lt;remote branch&gt;         <span class="comment"># 基于远程分支新建分支, 如:git branch dev origin/master</span></span><br><span class="line">git branch &lt;branch name&gt; &lt;commit id&gt;             <span class="comment"># 基于提交新建分支</span></span><br><span class="line">git branch &lt;branch name&gt; &lt;tag id&gt;                <span class="comment"># 基于tag新建分支</span></span><br><span class="line">git branch -d &lt;branch name&gt;                      <span class="comment"># 删除分支</span></span><br><span class="line">git checkout &lt;branch name&gt;                       <span class="comment"># 切换分支</span></span><br><span class="line">git merge &lt;merge target&gt;                         <span class="comment"># 合并分支, 当出现冲突时需解决后再提交</span></span><br></pre></td></tr></table></figure>
+<h3 id="Tag管理"><a href="#Tag管理" class="headerlink" title="Tag管理"></a>Tag管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag</span><br><span class="line">git tag &lt;tag name&gt; &lt;branch name&gt;</span><br><span class="line">git tag -d &lt;tag name&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="推送提交到远程"><a href="#推送提交到远程" class="headerlink" title="推送提交到远程"></a>推送提交到远程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git remote -v                                    <span class="comment"># 查看远程仓库</span></span><br><span class="line">git remote add origin &lt;url&gt;                      <span class="comment"># 添加远程仓库地址</span></span><br><span class="line">git remote remove origin                         <span class="comment"># 删除origin对应的远程仓库</span></span><br><span class="line"></span><br><span class="line">git push</span><br><span class="line">git push --set-upstream origin master</span><br></pre></td></tr></table></figure>
+<h3 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span>                                          <span class="comment"># 查看当前分支的提交日志</span></span><br><span class="line">git <span class="built_in">log</span> &lt;branch name&gt;                            <span class="comment"># 查看指定分支的提交日志</span></span><br><span class="line">git <span class="built_in">log</span> --oneline                                <span class="comment"># 单行显示提交日志</span></span><br><span class="line">git <span class="built_in">log</span> master..dev                              <span class="comment"># 比较两个版本的区别</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=format:<span class="string">&#x27;%h %s&#x27;</span> --graph          <span class="comment"># 以图表的方式显示提交合并网络</span></span><br><span class="line">git show &lt;branch name&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h2><h3 id="Git-内部原理-Git-对象"><a href="#Git-内部原理-Git-对象" class="headerlink" title="Git 内部原理 - Git 对象"></a><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v2/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-Git-%E5%AF%B9%E8%B1%A1">Git 内部原理 - Git 对象</a></h3><p><strong>Git存储对象</strong><br>Git是一个内容寻址文件系统，其核心部分是一个简单的键值对数据库(key-value data store)，你可以向数据库中插入任何内容，它会返回一个用户取回该键值的hash键。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git hash-object -w README.md                     <span class="comment"># 元数据存储在.git/objects/目录</span></span><br><span class="line">git cat-file -p [id]</span><br></pre></td></tr></table></figure>
+<p><strong>Git树对象</strong><br>它能解决文件名保存的问题，也允许我们将多个文件组织到一起。<br><strong>Git提交对象</strong><br><strong>Git引用</strong></p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p><strong><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019315509">关于 Git 的 20 个面试题</a></strong></p>
+<h3 id="Git与svn的区别"><a href="#Git与svn的区别" class="headerlink" title="Git与svn的区别?"></a>Git与svn的区别?</h3><p><strong>存储方式不同</strong><br>Git采用元数据的方式存储，svn采用文件的方式（新版本已改为元数据）。<br>可以理解为svn存储的是整个文件，而git是将文件内容存储到数据库<br><strong>使用方式不同</strong><br>从本地把文件提交到远程，svn只需要commit，git则需要add、commit、push三个步骤<br><strong>管理模式不同</strong><br>git是分布式的，svn是集中式的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://joylobo.github.io/2021/03/04/git/" data-id="ckmm0fh47000519qcfy6c6hky" class="article-share-link">Share</a>
+      
+        <a href="https://joylobo.github.io/2021/03/04/git/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" rel="tag">版本管理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/04/mysql-index/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL索引
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/04/redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Redis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/23/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/23/mysql-lock/">mysql-lock</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/mysql-index/">MySQL索引</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/git/">Git</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/redis/">Redis</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="250" height="250" id="resCanvas" style="width:100%">
+        <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 20px;">中间件</a> <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" style="font-size: 10px;">反向代理</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/" style="font-size: 10px;">容器编排</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" style="font-size: 10px;">版本管理</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a>
+      </canvas>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Joy Lobo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'gh-pages-4';
+  
+  var disqus_url = 'https://joylobo.github.io/2021/03/04/git/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

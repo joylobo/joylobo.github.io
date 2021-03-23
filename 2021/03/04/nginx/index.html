@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Nginx学习笔记 | Joy Lobo随笔</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="table &gt; thead &gt; tr &gt; th:nth-child(1) {             width: 250px;         }        简介Nginx服务器以其功能丰富著称于世。它既可以作为HTTP服务器，也可以作为反向代理服务器或者邮件服务器；能够快速响应静态页面(HTML)的请求;支持FastCGI、SSL、Virtual Host、UR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx学习笔记">
+<meta property="og:url" content="https://joylobo.github.io/2021/03/04/nginx/index.html">
+<meta property="og:site_name" content="Joy Lobo随笔">
+<meta property="og:description" content="table &gt; thead &gt; tr &gt; th:nth-child(1) {             width: 250px;         }        简介Nginx服务器以其功能丰富著称于世。它既可以作为HTTP服务器，也可以作为反向代理服务器或者邮件服务器；能够快速响应静态页面(HTML)的请求;支持FastCGI、SSL、Virtual Host、UR">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-04T02:18:38.000Z">
+<meta property="article:modified_time" content="2021-03-23T12:43:56.680Z">
+<meta property="article:author" content="Joy Lobo">
+<meta property="article:tag" content="中间件">
+<meta property="article:tag" content="反向代理">
+<meta property="article:tag" content="负载均衡">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Joy Lobo随笔" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joy Lobo随笔</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://joylobo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/04/nginx/" class="article-date">
+  <time datetime="2021-03-04T02:18:38.000Z" itemprop="datePublished">2021-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx学习笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+    <style type="text/css">
+        table > thead > tr > th:nth-child(1) {
+            width: 250px;
+        }
+    </style>
+
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Nginx服务器以其功能丰富著称于世。它既可以作为HTTP服务器，也可以作为反向代理服务器或者邮件服务器；能够快速响应静态页面(HTML)的请求;支持FastCGI、SSL、Virtual Host、URL Rewrite、HTTP Basic Auth、Gzip等大量实用功能；并支持更多的第三方功能模块的扩展。</p>
+<h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h2><h3 id="基本HTTP服务"><a href="#基本HTTP服务" class="headerlink" title="基本HTTP服务"></a>基本HTTP服务</h3><p>在Nginx提供的基本HTTP服务组件中，主要包含以下功能特性：</p>
+<ul>
+<li>处理静态文件(如HTML静态网页及请求);处理索引文件以及支持自动索引。</li>
+<li>打开并自行管理文件描述符缓存。</li>
+<li>提供反向代理服务，并且可以使用缓存加速反向代理，同时完成简单负载均衡及容错。</li>
+<li>提供远程FastCGI服务的缓存机制，加速访问，同时完成简单的负载均衡及容错。</li>
+<li>使用Nginx的模块化特性提供过滤器功能。Nginx基本过滤器包括gzip压缩、ranges支持、chunked响应，XSLT、SSI以及图像缩放等。其中，针对包含多个SSI的页面，经由FastCGI或反向代理，SSI过滤器可以并行处理。</li>
+<li>支持HTTP下的安全套接层安全协议SSL。</li>
+</ul>
+<h3 id="高级HTTP服务"><a href="#高级HTTP服务" class="headerlink" title="高级HTTP服务"></a>高级HTTP服务</h3><p>在Nginx提供的高级HTTP服务中，主要包含以下功能特性：</p>
+<ul>
+<li>支持基于名字和IP的虚拟主机设置。</li>
+<li>支持HTTP/1.0中KEEP-ALIVE模式和管线(PipeLined)模型连接。</li>
+<li>支持重新加载配置以及在线升级时，无需中断正在处理的请求。</li>
+<li>自定义访问日志格式、带缓存的日志写操作以及快速日志轮转。</li>
+<li>提供3xx~5xx错误代码重定向功能。</li>
+<li>支持重写(Rewrite)模块扩展。</li>
+<li>支持HTTP DAV模块，从而为HTTP WebDAV提供PUT、DELETE、MKCOL、COPY已经MOVE方法。</li>
+<li>支持FLV流和MP4流传输。</li>
+<li>支持网络监控，包括基于客户端IP地址和HTTP基本认证机制的访问控制、速度限制、来自同一地址的同时连接数或请求数限制等。</li>
+<li>支持嵌入Perl语言。</li>
+</ul>
+<h3 id="邮件代理服务"><a href="#邮件代理服务" class="headerlink" title="邮件代理服务"></a>邮件代理服务</h3><p>Nginx提供邮件代理服务也是其基本开发需求之一，主要包含以下功能特性：</p>
+<ul>
+<li>支持使用外部HTTP认证服务器重定向用户到IMAP/POP3后端，并支持IMAP认证方式(LOGIN、AUTH LOGIN/CRAM-MD5)和POP3认证方式(USER/PASS、APOP、AUTH LOGIN/PLAIN/CRAM-MD5)。</li>
+<li>支持使用外部HTTP认证服务器认证用户重定向连接到内部SMTP后端，并支持SMTP认证方式(AUTH LOGIN/PLAIN/CRAM-MD5)。</li>
+<li>支持邮件代理服务下的安全套接层协议SSL。</li>
+<li>支持纯文本通信协议的扩展协议STARTTLS。</li>
+</ul>
+<h2 id="常用功能介绍"><a href="#常用功能介绍" class="headerlink" title="常用功能介绍"></a>常用功能介绍</h2><h3 id="HTTPS代理和反向代理"><a href="#HTTPS代理和反向代理" class="headerlink" title="HTTPS代理和反向代理"></a>HTTPS代理和反向代理</h3><p>代理服务和反向代理服务是Nginx服务器作为Web服务器的主要功能之一，尤其是反向代理服务，是应用十分广泛的功能。在提供反向代理服务方面，Nginx服务器转发前端请求性能稳定，并且后端转发与业务配置相互分离，配置相当灵活。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>负载均衡，一般包含两方面含义。一方面是，将单一的负载分担到多个网络节点上并行处理，每个节点处理结束后将结果汇总给用户，这样可以大幅提高网络系统的处理能力;第二个方面的含义是，将大量的前端并发访问或数据流量分担到多个后端网络节点处理，这样可以有效减少前端用户等待响应的时间。Web服务器，FTP服务器、企业关键应用服务器等网络应用方面谈到的负载均衡问题，基本隶属于后一方面的含义。</p>
+<h3 id="Web缓存"><a href="#Web缓存" class="headerlink" title="Web缓存"></a>Web缓存</h3><p>Nginx服务器的Web缓存服务主要由Proxy_Cache相关指令集和FastCGI相关指令集构成。其中，Proxy_Cache主要用于在Nginx服务器提供反向代理服务时，对后端源服务器的返回内容进行URL缓存;FastCGI_Cache主要用于对FastCGI的动态程序进行缓存。另外还有一款常用的第三方模块ngx_cache_purge也是Nginx服务器Web缓存功能中常用到的。它主要用于清除Nginx服务上指定的URL缓存。</p>
+<h1 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h1><h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–prefix=&lt;path&gt;</td>
+<td>指定Nginx软件的安装路径，默认为/usr/local/nginx/目录</td>
+</tr>
+<tr>
+<td>–sbin-path=&lt;path&gt;</td>
+<td>指定Nginx可执行文件的安装路径，默认为&lt;prefix&gt;/sbin/nginx/目录。</td>
+</tr>
+<tr>
+<td>–config-path=&lt;path&gt;</td>
+<td>在未给定-c选项下，指定默认的nginx.conf路径，默认为&lt;prefix&gt;/conf/目录。</td>
+</tr>
+<tr>
+<td>–pid-path=&lt;path&gt;</td>
+<td>在nginx.conf中未指定pid指令的情况下，指定默认的nginx.pid路径，默认为&lt;prefix&gt;/logs/nginx.pid。nginx.pid保存了当前运行的Nginx服务的进程号</td>
+</tr>
+<tr>
+<td>–lock-path=&lt;path&gt;</td>
+<td>指定nginx.lock文件的路径，默认为/var/lock/目录。nginx.lock是Nginx服务器的锁文件。</td>
+</tr>
+<tr>
+<td>–error-log-path=&lt;path&gt;</td>
+<td>在nginx.conf中未指定error_log的情况下，指定默认的错误日志的路径，默认为&lt;prefix&gt;/logs/error.log</td>
+</tr>
+<tr>
+<td>–http-log-path=&lt;path&gt;</td>
+<td>在nginx.conf中未指定access_log指令的情况下，指定默认的访问日志路径，默认为&lt;prefix&gt;/logs/access.log</td>
+</tr>
+<tr>
+<td>–user=&lt;user&gt;</td>
+<td>在nginx.conf中未指定user指令的情况下，指定默认的Nginx服务器进程的属主用户，即Nginx进程运行的用户。可以理解为指定哪个用户启动Nginx，默认为nobody，表示不限制</td>
+</tr>
+<tr>
+<td>–group=&lt;group&gt;</td>
+<td>在nginx.conf中未指定user指令的情况下，指定默认的Nginx服务器进程的属主用户组，即Nginx进程运行的用户组。可以理解为指定哪个用户组的用户启动Nginx，默认为nobody，表示不限制</td>
+</tr>
+<tr>
+<td>–builddir=&lt;dir&gt;</td>
+<td>指定编译时的目录</td>
+</tr>
+<tr>
+<td>–with-debug</td>
+<td>声明启用Nginx的调用日志</td>
+</tr>
+<tr>
+<td>–add-module=&lt;path&gt;</td>
+<td>指定第三方模块的路径，用以编译到Nginx服务器中。</td>
+</tr>
+<tr>
+<td>–with-poll_module</td>
+<td>声明启用poll模块，poll模块是信号处理的一种方法，和下面提到的select模式类似，都是采用轮训方法处理信号</td>
+</tr>
+<tr>
+<td>–without-poll_module</td>
+<td>声明禁止poll模块</td>
+</tr>
+<tr>
+<td>–with-select_module</td>
+<td>声明启用select信号处理模式，若configure未找到指定其他的信号处理模式(如SUN系统中的kqueue，Linux内核的epoll、实时信号rtsig以及和select类似的/dev/poll等)，则默认使用select模式</td>
+</tr>
+<tr>
+<td>–without-select_module</td>
+<td>声明禁止select信号处理模式</td>
+</tr>
+<tr>
+<td>–with-http_ssl_module</td>
+<td>声明启用HTTP的ssl模块，这样Nginx服务器就可以支持HTTPS请求了，这个模块的正常运行需要安装openssl库</td>
+</tr>
+<tr>
+<td>–with-http_realip_module</td>
+<td>声明启用HTTP的realip模块，默认不启用</td>
+</tr>
+<tr>
+<td>–with-http_addition_module</td>
+<td>声明启用HTTP的addition模块，默认不启用</td>
+</tr>
+<tr>
+<td>–with-http_sub_module</td>
+<td>声明启用HTTP的sub模块，默认不启用</td>
+</tr>
+<tr>
+<td>–with-http_dav_module</td>
+<td>声明启用HTTP的dav模块，默认不启用</td>
+</tr>
+<tr>
+<td>–with-http_flv_module</td>
+<td>声明启用HTTPS的flv模块，默认不启用。flv模块使得Nginx服务器支持flv流媒体的传输</td>
+</tr>
+<tr>
+<td>–with-http_stub_status_module</td>
+<td>声明启用Server Status页，默认不启用</td>
+</tr>
+<tr>
+<td>–with-http_perl_module</td>
+<td>声明启用HTTP的perl模块，默认不启用。perl模块使得Nginx服务器支持perl脚本的运行</td>
+</tr>
+<tr>
+<td>–with-perl_modules_path=&lt;path&gt;</td>
+<td>指定perl模块的路径</td>
+</tr>
+<tr>
+<td>–with-perl=&lt;path&gt;</td>
+<td>指定perl执行文件的路径</td>
+</tr>
+<tr>
+<td>–without-http_charset_module</td>
+<td>声明禁止HTTP的charset模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_gzip_module</td>
+<td>声明禁用HTTP的gzip模块，默认启用。使用gzip模块需要安装zlib库</td>
+</tr>
+<tr>
+<td>–without-http_ssi_module</td>
+<td>声明禁用HTTP的ssi模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_userid_module</td>
+<td>声明禁用HTTP的userid模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_access_module</td>
+<td>声明禁用HTTP的access模块， 默认启用</td>
+</tr>
+<tr>
+<td>–without-http_auth_basic_module</td>
+<td>声明禁用HTTP的auth basic模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_autoindex_module</td>
+<td>声明禁用HTTP的autoindex模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_geo_module</td>
+<td>声明禁用HTTP的geo模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_map_module</td>
+<td>声明禁用HTTP的map模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_referer_module</td>
+<td>声明禁用HTTP的referer模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_rewrite_module</td>
+<td>声明禁用HTTP的rewrite模块，默认启用。使用rewrite模块需要安装pcre库</td>
+</tr>
+<tr>
+<td>–without-http_proxy_module</td>
+<td>声明禁用HTTP的proxy模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_fastcgi_module</td>
+<td>声明禁用HTTP的fastcgi模块，默认启用</td>
+</tr>
+<tr>
+<td>–without-http_memcached_module</td>
+<td>声明禁用HTTP的memcached模块，默认启用</td>
+</tr>
+</tbody></table>
+<h3 id="启动和停止"><a href="#启动和停止" class="headerlink" title="启动和停止"></a>启动和停止</h3><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://joylobo.github.io/2021/03/04/nginx/" data-id="ckmm0fh4h000c19qc79yf3fui" class="article-share-link">Share</a>
+      
+        <a href="https://joylobo.github.io/2021/03/04/nginx/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">中间件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" rel="tag">反向代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="tag">负载均衡</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/03/04/kubernetes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Kubernetes
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/03/03/leet-code/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Leet-code(力扣)题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/23/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/23/mysql-lock/">mysql-lock</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/mysql-index/">MySQL索引</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/git/">Git</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/04/redis/">Redis</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="250" height="250" id="resCanvas" style="width:100%">
+        <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 20px;">中间件</a> <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" style="font-size: 10px;">反向代理</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/" style="font-size: 10px;">容器编排</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" style="font-size: 10px;">版本管理</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 10px;">缓存</a> <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" style="font-size: 10px;">负载均衡</a>
+      </canvas>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Joy Lobo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'gh-pages-4';
+  
+  var disqus_url = 'https://joylobo.github.io/2021/03/04/nginx/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
