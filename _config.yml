@@ -4,7 +4,7 @@
 
 # Site
 title: Joy Lobo随笔
-subtitle: ''
+subtitle: 'What I cannot create, I do not understand - Richard Feynman'
 description: ''
 keywords:
 author: Joy Lobo
@@ -42,7 +42,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
